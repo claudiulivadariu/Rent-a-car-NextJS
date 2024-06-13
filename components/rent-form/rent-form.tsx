@@ -8,7 +8,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { FaCarAlt } from "react-icons/fa";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
-
+import { addDays } from "date-fns";
+import { DateRange } from "react-day-picker";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
@@ -25,10 +26,11 @@ export function RentForm() {
     const [dropOffLocation, setDropOffLocation] = useState("");
     const [carType, setCarType] = useState("");
     const [termsAccepted, setTermsAccepted] = useState(false);
-    const [pickUpDate, setPickUpDate] = React.useState<Date>();
-    const [dropOffDate, setDropOffDate] = React.useState<Date>();
+    const [date, setDate] = React.useState<DateRange | undefined>({
+        from: new Date(),
+        to: addDays(new Date(), 7),
+    });
     const [formErrors, setFormErrors] = useState<FormErrors>({});
-
     const handleSubmit = (e: any) => {
         e.preventDefault();
 
@@ -108,6 +110,46 @@ export function RentForm() {
                                 <span className="text-red-500 text-sm">{formErrors.carType}</span>
                             )}
                         </div>
+
+                        <div className={cn("grid gap-2")}>
+                            <Label htmlFor="date">Date</Label>
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <Button
+                                        id="date"
+                                        variant={"outline"}
+                                        className={cn(
+                                            "w-[300px] justify-start text-left font-normal",
+                                            !date && "text-muted-foreground"
+                                        )}
+                                    >
+                                        <CalendarIcon className="mr-2 h-4 w-4" />
+                                        {date?.from ? (
+                                            date.to ? (
+                                                <>
+                                                    {format(date.from, "LLL dd, y")} -{" "}
+                                                    {format(date.to, "LLL dd, y")}
+                                                </>
+                                            ) : (
+                                                format(date.from, "LLL dd, y")
+                                            )
+                                        ) : (
+                                            <span>Pick a date</span>
+                                        )}
+                                    </Button>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0" align="start">
+                                    <Calendar
+                                        initialFocus
+                                        mode="range"
+                                        defaultMonth={date?.from}
+                                        selected={date}
+                                        onSelect={setDate}
+                                        numberOfMonths={2}
+                                    />
+                                </PopoverContent>
+                            </Popover>
+                        </div>
                         <div className="flex items-center pt-2 ">
                             <Checkbox
                                 id="terms"
@@ -126,50 +168,6 @@ export function RentForm() {
                         {formErrors.termsAccepted && (
                             <span className="text-red-500 text-sm -mt-2">{formErrors.termsAccepted}</span>
                         )}
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-[280px] justify-start text-left font-normal",
-                                        !pickUpDate && "text-muted-foreground"
-                                    )}
-                                >
-                                    <CalendarIcon className="mr-2 h-4 w-4" />
-                                    {pickUpDate ? format(pickUpDate, "PPP") : <span>Pick-up date</span>}
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                                <Calendar
-                                    mode="single"
-                                    selected={pickUpDate}
-                                    onSelect={setPickUpDate}
-                                    initialFocus
-                                />
-                            </PopoverContent>
-                        </Popover>
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-[280px] justify-start text-left font-normal",
-                                        !dropOffDate && "text-muted-foreground"
-                                    )}
-                                >
-                                    <CalendarIcon className="mr-2 h-4 w-4" />
-                                    {dropOffDate ? format(dropOffDate, "PPP") : <span>Drop-off date</span>}
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0">
-                                <Calendar
-                                    mode="single"
-                                    selected={dropOffDate}
-                                    onSelect={setDropOffDate}
-                                    initialFocus
-                                />
-                            </PopoverContent>
-                        </Popover>
                     </div>
                     <CardFooter className="flex justify-center items-center pt-4 -mb-4">
                         <Button type="submit" style={{ width: "300px" }}>
