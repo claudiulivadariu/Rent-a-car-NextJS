@@ -67,7 +67,7 @@ export function Nav() {
                     </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <NavigationMenuTrigger>Components</NavigationMenuTrigger>
+                    <NavigationMenuTrigger>Company</NavigationMenuTrigger>
                     <NavigationMenuContent>
                         <ul className="grid w-[300px] p-2 md:w-[400px] md:grid-rows-3 lg:w-[500px] ">
                             {components.map((component) => (
