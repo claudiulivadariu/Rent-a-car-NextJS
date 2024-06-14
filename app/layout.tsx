@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Inter, Lusitana } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 import { Nav } from "@/components/navigation/navbar";
 
 const inter = Inter({ subsets: ["latin"] });
+const lusitana = Lusitana({ subsets: ["latin"], weight: ["400", "700"] });
 
 export const metadata: Metadata = {
     title: "Rent a car!",
@@ -24,10 +25,10 @@ export default function RootLayout({
             <body
                 className={cn(
                     "min-h-screen bg-background font-sans antialiased md:mx-[200px] mx-[10px]",
-                    fontSans.variable
+                    inter.className
                 )}
             >
-                <div className="lg:mx-[500px]">
+                <div className="md:mx-[150px] mt-2">
                     <Nav />
                 </div>
                 {children}
