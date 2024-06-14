@@ -65,7 +65,7 @@ export function RentForm() {
     };
 
     return (
-        <Card className="w-[350px] lg:mb-0 mb-10">
+        <Card className="w-[350px] lg:mb-0 mb-10 border-gray-700">
             <CardHeader>
                 <CardTitle className="flex">
                     Rent a car!

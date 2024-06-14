@@ -6,7 +6,7 @@ import { inter } from "@/components/ui/fonts";
 export default function Home() {
     return (
         <main className="">
-            <div className="flex lg:flex-row items-center flex-col justify-evenly p-12">
+            <div className="flex lg:flex-row items-center flex-col justify-evenly p-12 max-w-screen">
                 <RentForm />
                 <div>
                     <div className="lg:w-[600px] h-[400px] w-screen flex justify-center items-center flex-col">
@@ -25,17 +25,22 @@ export default function Home() {
                     </div>
                 </div>
             </div>
-            <div className="border-t-2">
-                <div className="flex justify-center items-center p-10">
-                    <div className="w-full">
+            <div className="border-t-2 border-gray-700">
+                <div className="flex justify-evenly lg:flex-row flex-col items-center p-10 min-w-full">
+                    <div>
                         <div className="w-[400px] p-5">
-                            <h1 className={`text-2xl leading-normal font-bold text-center`}>
+                            <h1 className={`text-2xl leading-normal font-bold text-center text-gray-700`}>
                                 Why rent a car from us?
                             </h1>
                             <p className=" text-justify mt-4">
                                 &ensp; Renting a car has never been easier! We offer a wide range of cars for
                                 rent at the best prices. No extra fees, no hidden costs. Rent a car from us!
                             </p>
+                        </div>
+                    </div>
+                    <div className="flex items-center justify-center lg:w-[560px]">
+                        <div className="z-20 border-x-[30px] border-gray-700 rounded-full">
+                            <Image src={"/cars3.jpeg"} alt="Car" width={400} height={400} />
                         </div>
                     </div>
                 </div>
