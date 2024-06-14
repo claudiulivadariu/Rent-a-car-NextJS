@@ -34,8 +34,32 @@ export default function Home() {
                             </h1>
                             <p className=" text-justify mt-4">
                                 &ensp; Renting a car has never been easier! We offer a wide range of cars for
-                                rent at the best prices. No extra fees, no hidden costs. Rent a car from us!
+                                rent at the best prices.
                             </p>
+                            <ul className="mt-4">
+                                <li className="flex items-center">
+                                    <span className="text-xl text-gray-700">✓</span>
+                                    <span className="ml-2">Wide range of cars</span>
+                                </li>
+                                <li className="flex items-center">
+                                    <span className="text-xl text-gray-700">✓</span>
+                                    <span className="ml-2">Best prices</span>
+                                </li>
+                                <li className="flex items-center">
+                                    <span className="text-xl text-gray-700">✓</span>
+                                    <span className="ml-2">
+                                        <span className="font-bold">Fast</span> and <span className="font-bold text-green-700">easy</span> process
+                                    </span>
+                                </li>
+                                <li className="flex items-center">
+                                    <span className="text-xl text-gray-700">✓</span>
+                                    <span className="ml-2"><span className="font-bold">No</span> hidden <span className="font-bold text-red-700">fees</span></span>
+                                </li>
+                                <li className="flex items-center">
+                                    <span className="text-xl text-gray-700">✓</span>
+                                    <span className="ml-2"><span className="font-bold">No</span> credit card needed</span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                     <div className="flex items-center justify-center lg:w-[560px]">
