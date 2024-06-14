@@ -21,8 +21,15 @@ export default function RootLayout({
 }>) {
     return (
         <html lang="en">
-            <body className={cn("min-h-screen bg-background font-sans antialiased md:mx-[500px] mx-[10px]", fontSans.variable)}>
-                <Nav />
+            <body
+                className={cn(
+                    "min-h-screen bg-background font-sans antialiased md:mx-[200px] mx-[10px]",
+                    fontSans.variable
+                )}
+            >
+                <div className="lg:mx-[500px]">
+                    <Nav />
+                </div>
                 {children}
             </body>
         </html>

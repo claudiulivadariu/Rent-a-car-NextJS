@@ -34,7 +34,7 @@ const components: { title: string; href: string; description: string }[] = [
 
 export function Nav() {
     return (
-        <NavigationMenu >
+        <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
                     <NavigationMenuTrigger>Rent</NavigationMenuTrigger>
@@ -42,27 +42,32 @@ export function Nav() {
                         <ul className="grid gap-3 p-4 w-[300px] md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
                             <li className="row-span-3">
                                 <NavigationMenuLink asChild>
-                                    <a
+                                    <Link
                                         className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
                                         href="/"
+                                        passHref
                                     >
                                         <FaCarAlt className="w-10 h-10 text-black" />
                                         <div className="mb-2 mt-4 text-lg font-medium">Rent now!</div>
                                         <p className="text-sm leading-tight text-muted-foreground">
                                             Check out our latest offers and rent a car today!
                                         </p>
-                                    </a>
+                                    </Link>
                                 </NavigationMenuLink>
                             </li>
-                            <ListItem href="/" title="Status">
-                                Check your rental status!
-                            </ListItem>
-                            <ListItem href="/" title="Instructions">
-                                How to rent a car using our platform.
-                            </ListItem>
-                            <ListItem href="/" title="Conditions">
-                                Check the conditions for renting a car.
-                            </ListItem>
+                            <Link href="/" passHref>
+                                <ListItem title="Status">Check your rental status!</ListItem>
+                            </Link>
+                            <Link href="/" passHref>
+                                <ListItem title="Instructions">
+                                    How to rent a car using our platform.
+                                </ListItem>
+                            </Link>
+                            <Link href="/" passHref>
+                                <ListItem title="Conditions">
+                                    Check the conditions for renting a car.
+                                </ListItem>
+                            </Link>
                         </ul>
                     </NavigationMenuContent>
                 </NavigationMenuItem>
@@ -71,9 +76,11 @@ export function Nav() {
                     <NavigationMenuContent>
                         <ul className="grid w-[300px] p-2 md:w-[400px] md:grid-rows-3 lg:w-[500px] ">
                             {components.map((component) => (
-                                <ListItem key={component.title} title={component.title} href={component.href}>
-                                    {component.description}
-                                </ListItem>
+                                <Link key={component.title} href={component.href} passHref>
+                                    <ListItem key={component.title} title={component.title}>
+                                        {component.description}
+                                    </ListItem>
+                                </Link>
                             ))}
                         </ul>
                     </NavigationMenuContent>

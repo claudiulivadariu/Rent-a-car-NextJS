@@ -24,6 +24,7 @@ interface FormErrors {
 export function RentForm() {
     const [pickUpLocation, setPickUpLocation] = useState("");
     const [dropOffLocation, setDropOffLocation] = useState("");
+    const [sameDropOffLocation, setSameDropOffLocation] = useState(false);
     const [carType, setCarType] = useState("");
     const [termsAccepted, setTermsAccepted] = useState(false);
     const [date, setDate] = React.useState<DateRange | undefined>({
@@ -31,6 +32,20 @@ export function RentForm() {
         to: addDays(new Date(), 7),
     });
     const [formErrors, setFormErrors] = useState<FormErrors>({});
+
+    const handleSameDropOffLocationChange = (e: any) => {
+        setSameDropOffLocation(e.target.checked);
+        if (e.target.checked) {
+            setDropOffLocation(pickUpLocation);
+        }
+    };
+
+    const handlePickUpLocationChange = (value: string) => {
+        setPickUpLocation(value);
+        if (sameDropOffLocation) {
+            setDropOffLocation(value);
+        }
+    };
     const handleSubmit = (e: any) => {
         e.preventDefault();
 
@@ -50,7 +65,7 @@ export function RentForm() {
     };
 
     return (
-        <Card className="w-[350px]">
+        <Card className="w-[350px] lg:mb-0 mb-10">
             <CardHeader>
                 <CardTitle className="flex">
                     Rent a car!
@@ -63,7 +78,12 @@ export function RentForm() {
                     <div className="grid w-full items-center gap-4">
                         <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="pick-up">Pick-up Location</Label>
-                            <Select value={pickUpLocation} onValueChange={setPickUpLocation}>
+                            <Select
+                                value={pickUpLocation}
+                                onValueChange={(value) => {
+                                    handlePickUpLocationChange(value);
+                                }}
+                            >
                                 <SelectTrigger id="pick-up">
                                     <SelectValue placeholder="Select" />
                                 </SelectTrigger>
@@ -78,8 +98,17 @@ export function RentForm() {
                             )}
                         </div>
                         <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor="drop-off">Drop-off Location</Label>
-                            <Select value={dropOffLocation} onValueChange={setDropOffLocation}>
+                            <Label
+                                htmlFor="drop-off"
+                                className={`${sameDropOffLocation ? "text-gray-300" : ""}`}
+                            >
+                                Drop-off Location
+                            </Label>
+                            <Select
+                                value={dropOffLocation}
+                                onValueChange={setDropOffLocation}
+                                disabled={sameDropOffLocation}
+                            >
                                 <SelectTrigger id="drop-off">
                                     <SelectValue placeholder="Select" />
                                 </SelectTrigger>
@@ -92,6 +121,27 @@ export function RentForm() {
                             {formErrors.dropOffLocation && (
                                 <span className="text-red-500 text-sm">{formErrors.dropOffLocation}</span>
                             )}
+                        </div>
+                        <div className="flex items-center">
+                            <Checkbox
+                                id="same-location"
+                                checked={sameDropOffLocation}
+                                onCheckedChange={(checked) => {
+                                    if (typeof checked === "boolean") {
+                                        handleSameDropOffLocationChange({
+                                            target: {
+                                                checked,
+                                            },
+                                        });
+                                    }
+                                }}
+                            />
+                            <label
+                                htmlFor="same-location"
+                                className="text-sm font-medium ml-2 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                            >
+                                Same as pick-up location
+                            </label>
                         </div>
                         <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="car-type">Car type</Label>
