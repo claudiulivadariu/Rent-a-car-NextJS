@@ -1,8 +1,4 @@
-"use client";
-
 import Image from "next/image";
-import { styled } from "@mui/system";
-import Button from "@mui/material/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGear, faGasPump } from "@fortawesome/free-solid-svg-icons";
 import Icon from "@mdi/react";
@@ -21,23 +17,10 @@ export interface CarCardProps {
     oldprice?: number;
     newprice?: number;
 }
-const GradientButton = styled(Button)({
-    background: "linear-gradient(45deg, #4CAF50, #2E7D32)",
-    border: 0,
-    borderRadius: 8,
-    color: "white",
-    maxHeight: "40px",
-    padding: "8px 12px",
-    boxShadow: "0 3px 5px 2px rgba(0, 0, 0, .3)",
-    transition: "background-color 0.3s",
-    "&:hover": {
-        background: "linear-gradient(45deg, #2E7D32, #4CAF50)",
-    },
-});
 export default function CarCard(props: CarCardProps) {
     const { image, seats, fueltype, cartype, transmissiontype, price, isonsale, oldprice, newprice } = props;
     return (
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden m-4 w-[300px] h-[400px] max-w-[20rem] ">
+        <div className="bg-white shadow-lg rounded-lg overflow-hidden w-[300px] h-[400px] max-w-[20rem] ">
             <div className="h-[15rem] flex items-center">
                 <Image
                     src={image}
@@ -45,6 +28,7 @@ export default function CarCard(props: CarCardProps) {
                     width={260}
                     height={260}
                     className="w-full h-auto max-h-[260px] p-4 mt-10 rounded-3xl rounded-t-3xl"
+                    priority={true}
                 />
             </div>
             <div className="p-4">
@@ -76,7 +60,7 @@ export default function CarCard(props: CarCardProps) {
                         </div>
                         <div className="flex">
                             <span className="pr-2 items-center text-slate-500 w-[20px] h-[20px]">
-                                <FontAwesomeIcon icon={faGasPump}/>
+                                <FontAwesomeIcon icon={faGasPump} />
                             </span>
                             <p className="text-slate-700 pt-[2px]">{fueltype}</p>
                         </div>
@@ -88,9 +72,6 @@ export default function CarCard(props: CarCardProps) {
                         </div>
                     </div>
                     <div className="flex justify-between items-center mt-5">
-                        {/* <GradientButton variant="contained" className="items-center ">
-                        View deal!
-                    </GradientButton> */}
                         <ShadButton
                             variant="default"
                             className="items-center bg-green-700 hover:bg-green-900"

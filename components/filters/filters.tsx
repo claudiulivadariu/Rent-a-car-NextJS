@@ -1,26 +1,26 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { IFilters } from "./IFilters";
 
-export function Filters() {
-    const [carType, setCarType] = useState("");
-    const [fuelType, setFuelType] = useState("");
-    const [transmission, setTransmission] = useState("");
-    const [price, setPrice] = useState<{ min: number; max: number }>({ min: 0, max: 0 });
-    const [seats, setSeats] = useState("");
-
+export function Filters(props: { filters: IFilters; setFilters: Dispatch<SetStateAction<IFilters>> }) {
+    const { filters, setFilters } = props;
     function handleClear(): void {
-        setCarType("");
+        setFilters({
+            carType: "",
+            fuelType: "",
+            transmission: "",
+            price: { min: 0, max: 1000 },
+            seats: "",
+        });
     }
 
-    useEffect(() => {
-        
-    }, [carType, fuelType, transmission, seats, price]);
+    // useEffect(() => {}, [carType, fuelType, transmission, seats, price]);
 
     return (
         <Card className="w-[350px] lg:mb-0 mb-10 border-gray-700 h-fit mx-10">
@@ -32,7 +32,12 @@ export function Filters() {
                     <div className="grid w-full items-center gap-4">
                         <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="car-type">Car type</Label>
-                            <Select value={carType} onValueChange={setCarType}>
+                            <Select
+                                value={filters.carType}
+                                onValueChange={(value) => {
+                                    setFilters({ ...filters, carType: value });
+                                }}
+                            >
                                 <SelectTrigger id="car-type">
                                     <SelectValue placeholder="Select" />
                                 </SelectTrigger>
@@ -46,7 +51,12 @@ export function Filters() {
                         </div>
                         <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="fuel-type">Fuel type</Label>
-                            <Select value={fuelType} onValueChange={setFuelType}>
+                            <Select
+                                value={filters.fuelType}
+                                onValueChange={(value) => {
+                                    setFilters({ ...filters, fuelType: value });
+                                }}
+                            >
                                 <SelectTrigger id="fuel-type">
                                     <SelectValue placeholder="Select" />
                                 </SelectTrigger>
@@ -60,7 +70,12 @@ export function Filters() {
                         </div>
                         <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="transmission">Transmission type</Label>
-                            <Select value={transmission} onValueChange={setTransmission}>
+                            <Select
+                                value={filters.transmission}
+                                onValueChange={(value) => {
+                                    setFilters({ ...filters, transmission: value });
+                                }}
+                            >
                                 <SelectTrigger id="transmission">
                                     <SelectValue placeholder="Select" />
                                 </SelectTrigger>
@@ -72,7 +87,12 @@ export function Filters() {
                         </div>
                         <div className="flex flex-col space-y-1.5">
                             <Label htmlFor="seats">Seats</Label>
-                            <Select value={seats} onValueChange={setSeats}>
+                            <Select
+                                value={filters.seats}
+                                onValueChange={(value) => {
+                                    setFilters({ ...filters, seats: value });
+                                }}
+                            >
                                 <SelectTrigger id="seats">
                                     <SelectValue placeholder="Select" />
                                 </SelectTrigger>
@@ -91,7 +111,10 @@ export function Filters() {
                                     type="number"
                                     placeholder="Min Price"
                                     onChange={(e) => {
-                                        setPrice({ ...price, min: parseInt(e.target.value) });
+                                        setFilters({
+                                            ...filters,
+                                            price: { min: parseInt(e.target.value), max: filters.price.max },
+                                        });
                                     }}
                                 />
                                 <p>-</p>
@@ -99,7 +122,10 @@ export function Filters() {
                                     type="number"
                                     placeholder="Max Price"
                                     onChange={(e) => {
-                                        setPrice({ ...price, max: parseInt(e.target.value) });
+                                        setFilters({
+                                            ...filters,
+                                            price: { min: filters.price.min, max: parseInt(e.target.value) },
+                                        });
                                     }}
                                 />
                             </div>

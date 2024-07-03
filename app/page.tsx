@@ -2,7 +2,7 @@
 
 import { RentForm } from "@/components/rent-form/rent-form";
 import Image from "next/image";
-import { inter } from "@/components/ui/fonts";
+
 export default function Home() {
     return (
         <main className="">
@@ -11,7 +11,7 @@ export default function Home() {
                 <div>
                     <div className="lg:w-[600px] h-[400px] w-screen flex justify-center items-center flex-col">
                         <p
-                            className={`${inter.className} leading-normal text-yellow-500 text-2xl md:leading-normal w-full text-center translate-y-10`}
+                            className={`font-bold leading-normal text-yellow-500 text-2xl md:leading-normal w-full text-center translate-y-10`}
                         >
                             Renting a car has never been easier!
                         </p>
@@ -21,6 +21,7 @@ export default function Home() {
                             width={300}
                             height={300}
                             className="drop-shadow-3xl"
+                            priority={true}
                         />
                     </div>
                 </div>
@@ -48,23 +49,29 @@ export default function Home() {
                                 <li className="flex items-center">
                                     <span className="text-xl text-gray-700">✓</span>
                                     <span className="ml-2">
-                                        <span className="font-bold">Fast</span> and <span className="font-bold text-green-700">easy</span> process
+                                        <span className="font-bold">Fast</span> and{" "}
+                                        <span className="font-bold text-green-700">easy</span> process
                                     </span>
                                 </li>
                                 <li className="flex items-center">
                                     <span className="text-xl text-gray-700">✓</span>
-                                    <span className="ml-2"><span className="font-bold">No</span> hidden <span className="font-bold text-red-700">fees</span></span>
+                                    <span className="ml-2">
+                                        <span className="font-bold">No</span> hidden{" "}
+                                        <span className="font-bold text-red-700">fees</span>
+                                    </span>
                                 </li>
                                 <li className="flex items-center">
                                     <span className="text-xl text-gray-700">✓</span>
-                                    <span className="ml-2"><span className="font-bold">No</span> credit card needed</span>
+                                    <span className="ml-2">
+                                        <span className="font-bold">No</span> credit card needed
+                                    </span>
                                 </li>
                             </ul>
                         </div>
                     </div>
                     <div className="flex items-center justify-center lg:w-[560px]">
                         <div className="z-20 border-x-[30px] border-gray-700 rounded-full">
-                            <Image src={"/cars3.jpeg"} alt="Car" width={400} height={400} />
+                            <Image src={"/cars3.jpeg"} alt="Car" width={400} height={400} priority={true} />
                         </div>
                     </div>
                 </div>
