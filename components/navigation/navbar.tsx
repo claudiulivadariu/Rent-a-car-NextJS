@@ -37,6 +37,11 @@ export function Nav() {
         <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
+                    <Link href="/" legacyBehavior passHref>
+                        <NavigationMenuLink className={navigationMenuTriggerStyle()}>Home</NavigationMenuLink>
+                    </Link>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
                     <NavigationMenuTrigger>Rent</NavigationMenuTrigger>
                     <NavigationMenuContent>
                         <ul className="grid gap-3 p-4 w-[300px] md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
@@ -44,7 +49,7 @@ export function Nav() {
                                 <NavigationMenuLink asChild>
                                     <Link
                                         className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                                        href="/"
+                                        href="/rent"
                                         passHref
                                     >
                                         <FaCarAlt className="w-10 h-10 text-black" />
