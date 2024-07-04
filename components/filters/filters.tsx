@@ -8,22 +8,24 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { IFilters } from "./IFilters";
 
-export function Filters(props: { filters: IFilters; setFilters: Dispatch<SetStateAction<IFilters>> }) {
-    const { filters, setFilters } = props;
-    function handleClear(): void {
-        setFilters({
-            carType: "",
-            fuelType: "",
-            transmission: "",
-            price: { min: 0, max: 1000 },
-            seats: "",
-        });
-    }
+const emptyFilters: IFilters = {
+    carType: "",
+    fuelType: "",
+    transmission: "",
+    price: { min: 0, max: 1000 },
+    seats: "",
+};
 
-    // useEffect(() => {}, [carType, fuelType, transmission, seats, price]);
-
+export function Filters(props: {
+    filters: IFilters;
+    setFilters: Dispatch<SetStateAction<IFilters>>;
+    applyFilters: any;
+    handleClear: any;
+}) {
+    const { filters, setFilters, applyFilters, handleClear } = props;
+    const [appliedFilters, setAppliedFilters] = useState<IFilters>(emptyFilters);
     return (
-        <Card className="w-[350px] lg:mb-0 mb-10 border-gray-700 h-fit mx-10">
+        <Card className="w-[350px] lg:mb-0 mb-10 border-gray-700 h-fit ">
             <CardHeader>
                 <CardTitle className="flex justify-center items-center">Filters</CardTitle>
             </CardHeader>
@@ -43,7 +45,7 @@ export function Filters(props: { filters: IFilters; setFilters: Dispatch<SetStat
                                 </SelectTrigger>
                                 <SelectContent position="popper">
                                     <SelectItem value="small">Small</SelectItem>
-                                    <SelectItem value="SUV">SUV</SelectItem>
+                                    <SelectItem value="suv">SUV</SelectItem>
                                     <SelectItem value="luxury">Luxury</SelectItem>
                                     <SelectItem value="family">Family</SelectItem>
                                 </SelectContent>
@@ -80,8 +82,8 @@ export function Filters(props: { filters: IFilters; setFilters: Dispatch<SetStat
                                     <SelectValue placeholder="Select" />
                                 </SelectTrigger>
                                 <SelectContent position="popper">
-                                    <SelectItem value="small">Manual</SelectItem>
-                                    <SelectItem value="SUV">Automatic</SelectItem>
+                                    <SelectItem value="manual">Manual</SelectItem>
+                                    <SelectItem value="automatic">Automatic</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -110,6 +112,7 @@ export function Filters(props: { filters: IFilters; setFilters: Dispatch<SetStat
                                 <Input
                                     type="number"
                                     placeholder="Min Price"
+                                    className={"w-[130px]"}
                                     onChange={(e) => {
                                         setFilters({
                                             ...filters,
@@ -121,6 +124,7 @@ export function Filters(props: { filters: IFilters; setFilters: Dispatch<SetStat
                                 <Input
                                     type="number"
                                     placeholder="Max Price"
+                                    className={"w-[130px]"}
                                     onChange={(e) => {
                                         setFilters({
                                             ...filters,
@@ -131,11 +135,42 @@ export function Filters(props: { filters: IFilters; setFilters: Dispatch<SetStat
                             </div>
                         </div>
                     </div>
-                    <CardFooter className="flex justify-center items-center pt-4 -mb-4">
-                        <Button type="button" style={{ width: "300px" }} onClick={handleClear}>
-                            Clear!
-                        </Button>
-                    </CardFooter>
+                    <div className="grid w-full items-center grid-flow-col mt-4 -ml-8">
+                        <CardFooter>
+                            <Button
+                                type="button"
+                                style={{ width: "130px" }}
+                                onClick={() => {
+                                    handleClear();
+                                    setAppliedFilters(emptyFilters);
+                                }}
+                                className={`${
+                                    JSON.stringify(filters) === JSON.stringify(emptyFilters)
+                                        ? "bg-default-200 text-gray-600"
+                                        : "bg-default-600 text-white"
+                                }`}
+                                disabled={JSON.stringify(filters) === JSON.stringify(emptyFilters)}
+                            >
+                                Clear!
+                            </Button>
+                        </CardFooter>
+                        <CardFooter>
+                            <Button
+                                type="submit"
+                                style={{ width: "130px" }}
+                                onClick={() => {
+                                    applyFilters();
+                                    setAppliedFilters(filters);
+                                }}
+                                disabled={
+                                    JSON.stringify(filters) === JSON.stringify(emptyFilters) ||
+                                    JSON.stringify(filters) === JSON.stringify(appliedFilters)
+                                }
+                            >
+                                Apply filters!
+                            </Button>
+                        </CardFooter>
+                    </div>
                 </>
             </CardContent>
         </Card>

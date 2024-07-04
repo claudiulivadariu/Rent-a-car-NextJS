@@ -81,20 +81,27 @@
     gap: 1rem;
 }
 
-@media (min-width: 1400px) and (max-width: 1699px) {
+@media (min-width: 650px) and (max-width: 1599px) {
     .cars-grid-container {
         grid-template-columns: repeat(2, 1fr);
     }
 }
 
-@media (min-width: 1700px) and (max-width: 2099px) {
+@media (min-width: 1600px) and (max-width: 1899px) {
     .cars-grid-container {
         grid-template-columns: repeat(3, 1fr);
     }
 }
 
-@media (min-width: 2100px) {
+@media (min-width: 1900px) {
     .cars-grid-container {
         grid-template-columns: repeat(4, 1fr);
     }
+}
+
+.NavigationMenuList {
+    color: red;
+    background-color: blue !important;
+    fill: aqua !important;
+    override-colors: red !important;
 }
