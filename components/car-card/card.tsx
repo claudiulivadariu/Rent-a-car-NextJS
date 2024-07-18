@@ -20,7 +20,7 @@ export interface CarCardProps {
 export default function CarCard(props: CarCardProps) {
     const { image, seats, fueltype, cartype, transmissiontype, price, isonsale, oldprice, newprice } = props;
     return (
-        <div className="bg-white shadow-lg rounded-lg overflow-hidden w-[300px] h-[400px] max-w-[20rem] ">
+        <div className="bg-white shadow-lg rounded-lg overflow-hidden w-[350px] h-[400px] max-w-[350px] ">
             <div className="h-[15rem] flex items-center">
                 <Image
                     src={image}

@@ -16,7 +16,7 @@ import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
-interface FormErrors {
+export interface FormErrors {
     pickUpLocation?: string;
     dropOffLocation?: string;
     carType?: string;
