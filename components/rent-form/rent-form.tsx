@@ -162,7 +162,7 @@ export function RentForm() {
                                 <span className="text-red-500 text-sm">{formErrors.dropOffLocation}</span>
                             )}
                         </div>
-                        <div className="flex items-center">
+                        <div className="flex items-center cursor-pointer">
                             <Checkbox
                                 id="same-location"
                                 checked={sameDropOffLocation}
@@ -178,7 +178,7 @@ export function RentForm() {
                             />
                             <label
                                 htmlFor="same-location"
-                                className="text-sm font-medium ml-2 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                className="text-sm font-medium ml-2 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
                             >
                                 Same as pick-up location
                             </label>

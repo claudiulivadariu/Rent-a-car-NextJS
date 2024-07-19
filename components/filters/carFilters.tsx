@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import React, { Dispatch, SetStateAction, use, useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Input } from "@/components/ui/input";
 import { ICarFilters } from "./ICarFilters";
 import { ChevronDown, ChevronUp } from "react-feather";
+import { useSearchParams } from "next/navigation";
 
 const emptyFilters: ICarFilters = {
     carType: "",
@@ -22,11 +23,23 @@ export function CarFilters(props: {
     setCarFilters: Dispatch<SetStateAction<ICarFilters>>;
     applyFilters: any;
     handleClear: any;
+    loadingParams: boolean;
+    setLoadingParams: Dispatch<SetStateAction<boolean>>;
     collapsedContext: [boolean, Dispatch<SetStateAction<boolean>>];
 }): any {
-    const { carFilters, setCarFilters, applyFilters, handleClear } = props;
+    const { carFilters, setCarFilters, applyFilters, handleClear, setLoadingParams, loadingParams } = props;
     const [show, setShow] = props.collapsedContext;
     const [appliedFilters, setAppliedFilters] = useState<ICarFilters>(emptyFilters);
+    const params = useSearchParams();
+    const paramsCarType = params.get("carType");
+    useEffect(() => {
+        if (loadingParams == true) {
+            if (params.size > 0 && paramsCarType && paramsCarType !== carFilters.carType) {
+                setCarFilters({ ...carFilters, carType: paramsCarType.toLocaleLowerCase() });
+            }
+        }
+        setLoadingParams(false);
+    }, [carFilters, loadingParams, params.size, paramsCarType, setCarFilters, setLoadingParams]);
     return (
         <Card className="w-[350px] lg:mb-4 mb-10 border-gray-700 h-fit ">
             <CardHeader

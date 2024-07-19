@@ -15,13 +15,34 @@ import { Calendar as CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { format } from "date-fns";
 import { ChevronDown, ChevronUp } from "react-feather";
+import { useSearchParams } from "next/navigation";
 
 export function OtherFilters(props: {
     otherFilters: IOtherFilters;
     setOtherFilters: Dispatch<SetStateAction<IOtherFilters>>;
     collapsedContext: [boolean, Dispatch<SetStateAction<boolean>>];
 }): any {
+    const params = useSearchParams();
+    const pickUpLocation = params.get("pickUpLocation");
+    const dropOffLocation = params.get("dropOffLocation");
+    const startDate = params.get("startDate");
+    const endDate = params.get("endDate");
     const { otherFilters, setOtherFilters } = props;
+
+    useEffect(() => {
+        if (pickUpLocation) setOtherFilters((prev) => ({ ...prev, pickUpLocation }));
+        if (dropOffLocation) setOtherFilters((prev) => ({ ...prev, dropOffLocation }));
+        if (startDate && endDate) {
+            setOtherFilters((prev) => ({
+                ...prev,
+                date: {
+                    from: new Date(startDate),
+                    to: new Date(endDate),
+                },
+            }));
+        }
+    }, [pickUpLocation, dropOffLocation, startDate, endDate, setOtherFilters]);
+
     const [formErrors, setFormErrors] = useState<FormErrors>({});
     const [show, setShow] = props.collapsedContext;
 
@@ -109,7 +130,7 @@ export function OtherFilters(props: {
                                     <span className="text-red-500 text-sm">{formErrors.dropOffLocation}</span>
                                 )}
                             </div>
-                            <div className="flex items-center">
+                            <div className="flex items-center cursor-pointer">
                                 <Checkbox
                                     id="same-location"
                                     checked={sameDropOffLocation}
