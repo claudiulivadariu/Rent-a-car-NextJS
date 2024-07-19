@@ -3,9 +3,9 @@ import { Card, Skeleton } from "@nextui-org/react";
 
 export default function LoadingCard() {
     return (
-        <Card className="w-[300px] h-[400px] space-y-5 p-4 bg-white shadow-lg rounded-lg" radius="lg">
+        <Card className="w-[350px] h-[400px] space-y-5 p-4 bg-white shadow-lg rounded-lg" radius="lg">
             <Skeleton className="rounded-lg">
-                <div className="h-[250px] w-[250px] rounded-lg bg-default-300"></div>
+                <div className="h-[250px] w-[320px] rounded-lg bg-default-300"></div>
             </Skeleton>
             <div className="space-y-3">
                 <Skeleton className="w-full rounded-lg mt-2">

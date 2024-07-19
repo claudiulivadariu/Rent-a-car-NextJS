@@ -1,13 +1,12 @@
 import { CarCardProps } from "@/components/car-card/card";
 import { unstable_noStore as noStore } from "next/cache";
 import { sql } from "@vercel/postgres";
-import { IFilters } from "@/components/filters/IFilters";
+import { ICarFilters } from "@/components/filters/ICarFilters";
 
 export async function fetchCars() {
-    noStore();
+    // noStore();
 
     try {
-        console.log("Fetching revenue data...");
         const data = await sql<CarCardProps>`SELECT * FROM cars LIMIT 8`;
         return data.rows;
     } catch (error) {
@@ -16,12 +15,9 @@ export async function fetchCars() {
     }
 }
 
-export async function fetchFilteredCars(filters: IFilters) {
-    noStore();
-
+export async function fetchFilteredCars(filters: ICarFilters) {
+    // noStore();
     try {
-        console.log("Fetching revenue data...");
-
         // Initialize the base query and parameters
         let queryString = `SELECT * FROM cars WHERE price >= $1 AND price <= $2`;
         let queryParams: any[] = [filters.price.min, filters.price.max];
@@ -54,9 +50,6 @@ export async function fetchFilteredCars(filters: IFilters) {
         }
 
         queryString += ` LIMIT 8;`;
-
-        console.log(queryString);
-        console.log(queryParams);
 
         // Using the sql tagged template for the final query
         const data = await sql.query<CarCardProps>(queryString, queryParams);

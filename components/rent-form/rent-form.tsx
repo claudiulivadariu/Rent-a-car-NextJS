@@ -1,9 +1,8 @@
-'use client'
+"use client";
 
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -15,15 +14,25 @@ import { DateRange } from "react-day-picker";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { useRouter, useParams } from "next/navigation";
 
 export interface FormErrors {
     pickUpLocation?: string;
     dropOffLocation?: string;
     carType?: string;
     termsAccepted?: string;
+    date?: string;
 }
 
 export function RentForm() {
+    const router = useRouter();
+    const params = useParams<{
+        pickUpLocation: string;
+        dropOffLocation: string;
+        carType?: string;
+        startDate: string;
+        endDate: string;
+    }>();
     const [pickUpLocation, setPickUpLocation] = useState("");
     const [dropOffLocation, setDropOffLocation] = useState("");
     const [sameDropOffLocation, setSameDropOffLocation] = useState(false);
@@ -38,12 +47,22 @@ export function RentForm() {
     const handleSameDropOffLocationChange = (e: any) => {
         setSameDropOffLocation(e.target.checked);
         if (e.target.checked) {
+            setFormErrors((prev) => {
+                delete prev.dropOffLocation;
+                return prev;
+            });
             setDropOffLocation(pickUpLocation);
         }
     };
 
     const handlePickUpLocationChange = (value: string) => {
         setPickUpLocation(value);
+        if (formErrors.pickUpLocation) {
+            setFormErrors((prev) => {
+                delete prev.pickUpLocation;
+                return prev;
+            });
+        }
         if (sameDropOffLocation) {
             setDropOffLocation(value);
         }
@@ -54,15 +73,26 @@ export function RentForm() {
         const errors: FormErrors = {};
         if (!pickUpLocation) errors.pickUpLocation = "Pick-up location is required.";
         if (!dropOffLocation) errors.dropOffLocation = "Drop-off location is required.";
-        if (!carType) errors.carType = "Car type is required.";
         if (!termsAccepted) errors.termsAccepted = "You must accept the terms and conditions.";
-
+        if (!date?.from || !date?.to) errors.date = "Date is required.";
         if (Object.keys(errors).length > 0) {
             setFormErrors(errors);
         } else {
             setFormErrors({});
-            // Proceed with form submission
-            console.log({ pickUpLocation, dropOffLocation, carType, termsAccepted });
+            if (date?.from && date?.to) {
+                const startDate = format(date.from, "yyyy-MM-dd");
+                const endDate = format(date.to, "yyyy-MM-dd");
+                if (carType) {
+                    params.carType = carType;
+                }
+                params.startDate = startDate;
+                params.endDate = endDate;
+                params.pickUpLocation = pickUpLocation;
+                params.dropOffLocation = dropOffLocation;
+
+                // Proceed with form submission
+                router.push(`/rent?${new URLSearchParams(params).toString()}`);
+            }
         }
     };
 
@@ -79,7 +109,7 @@ export function RentForm() {
                 <form onSubmit={handleSubmit}>
                     <div className="grid w-full items-center gap-4">
                         <div className="flex flex-col space-y-1.5">
-                            <Label htmlFor="pick-up">Pick-up Location</Label>
+                            <Label htmlFor="pick-up">Pick-up Location *</Label>
                             <Select
                                 value={pickUpLocation}
                                 onValueChange={(value) => {
@@ -104,11 +134,19 @@ export function RentForm() {
                                 htmlFor="drop-off"
                                 className={`${sameDropOffLocation ? "text-gray-300" : ""}`}
                             >
-                                Drop-off Location
+                                Drop-off Location *
                             </Label>
                             <Select
                                 value={dropOffLocation}
-                                onValueChange={setDropOffLocation}
+                                onValueChange={(value) => {
+                                    setDropOffLocation(value);
+                                    if (formErrors.dropOffLocation) {
+                                        setFormErrors((prev) => {
+                                            delete prev.dropOffLocation;
+                                            return prev;
+                                        });
+                                    }
+                                }}
                                 disabled={sameDropOffLocation}
                             >
                                 <SelectTrigger id="drop-off">
@@ -164,7 +202,7 @@ export function RentForm() {
                         </div>
 
                         <div className={cn("grid gap-2")}>
-                            <Label htmlFor="date">Date</Label>
+                            <Label htmlFor="date">Date *</Label>
                             <Popover>
                                 <PopoverTrigger asChild>
                                     <Button
@@ -207,14 +245,24 @@ export function RentForm() {
                                 id="terms"
                                 checked={termsAccepted}
                                 onCheckedChange={(checked) => {
-                                    if (typeof checked === "boolean") setTermsAccepted(checked);
+                                    if (typeof checked === "boolean") {
+                                        setTermsAccepted(checked);
+                                        if (checked === true) {
+                                            if (formErrors.termsAccepted) {
+                                                setFormErrors((prev) => {
+                                                    delete prev.termsAccepted;
+                                                    return prev;
+                                                });
+                                            }
+                                        }
+                                    }
                                 }}
                             />
                             <label
                                 htmlFor="terms"
-                                className="text-sm font-medium ml-2 leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                                className="text-sm font-medium ml-2 leading-none cursor-pointer peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                             >
-                                Accept terms and conditions
+                                Accept terms and conditions *
                             </label>
                         </div>
                         {formErrors.termsAccepted && (

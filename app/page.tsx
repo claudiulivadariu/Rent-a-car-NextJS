@@ -2,8 +2,8 @@
 
 import { RentForm } from "@/components/rent-form/rent-form";
 import Image from "next/image";
-
 export default function Home() {
+
     return (
         <main className="">
             <div className="flex lg:flex-row items-center flex-col justify-evenly p-12 max-w-screen">

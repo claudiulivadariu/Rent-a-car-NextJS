@@ -3,7 +3,7 @@
 "use server";
 
 import { CarCardProps } from "@/components/car-card/card";
-import { IFilters } from "@/components/filters/IFilters";
+import { ICarFilters } from "@/components/filters/ICarFilters";
 import { fetchCars, fetchFilteredCars } from "@/lib/data";
 
 export async function getCars(): Promise<CarCardProps[]> {
@@ -11,7 +11,7 @@ export async function getCars(): Promise<CarCardProps[]> {
     return cars;
 }
 
-export async function getFilteredCars(filters: IFilters){
+export async function getFilteredCars(filters: ICarFilters) {
     const cars: CarCardProps[] = await fetchFilteredCars(filters);
     return cars;
 }
