@@ -31,6 +31,7 @@ export function CarFilters(props: {
     const [show, setShow] = props.collapsedContext;
     const [appliedFilters, setAppliedFilters] = useState<ICarFilters>(emptyFilters);
     const params = useSearchParams();
+    const [pointHasDown, setPointHasDown] = useState(false);
     const paramsCarType = params.get("carType");
     useEffect(() => {
         if (loadingParams == true) {
@@ -68,7 +69,16 @@ export function CarFilters(props: {
                                     <SelectTrigger id="car-type">
                                         <SelectValue placeholder="Select" />
                                     </SelectTrigger>
-                                    <SelectContent position="popper">
+                                    <SelectContent
+                                        ref={(ref) => {
+                                            if (!ref) return;
+                                            ref.ontouchstart = (e) => {
+                                                console.log('helo');
+                                                
+                                                e.preventDefault();
+                                            };
+                                        }}
+                                    >
                                         <SelectItem value="small">Small</SelectItem>
                                         <SelectItem value="suv">SUV</SelectItem>
                                         <SelectItem value="luxury">Luxury</SelectItem>
