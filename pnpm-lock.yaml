@@ -118,6 +118,9 @@ dependencies:
   use-window-size:
     specifier: ^0.0.1
     version: 0.0.1
+  ws:
+    specifier: ^8.18.0
+    version: 8.18.0
 
 devDependencies:
   '@types/node':
@@ -136,7 +139,7 @@ devDependencies:
     specifier: 14.2.4
     version: 14.2.4(eslint@8.0.0)(typescript@5.0.2)
   postcss:
-    specifier: ^8
+    specifier: ^8.0.0
     version: 8.0.0
   tailwindcss:
     specifier: ^3.4.1
@@ -7093,6 +7096,19 @@ packages:
     dependencies:
       bufferutil: 4.0.8
       utf-8-validate: 6.0.3
+    dev: false
+
+  /ws@8.18.0:
+    resolution: {integrity: sha512-8VbfWfHLbbwu3+N6OKsOMpBdT4kXPDDB9cJk2bJ6mh9ucxdlnNvH1e+roYkKmN9Nxw2yjz7VzeO9oOz2zJ04Pw==}
+    engines: {node: '>=10.0.0'}
+    peerDependencies:
+      bufferutil: ^4.0.1
+      utf-8-validate: '>=5.0.2'
+    peerDependenciesMeta:
+      bufferutil:
+        optional: true
+      utf-8-validate:
+        optional: true
     dev: false
 
   /xtend@4.0.2:
