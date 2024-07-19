@@ -42,48 +42,58 @@ export default function RentPage() {
 
     const applyFilters = async () => {
         setLoading(true);
-        const carsData = await getFilteredCars(carFilters);
-        setCars(carsData);
-        setLoading(false);
+        try {
+            const carsData = await getFilteredCars(carFilters);
+            setCars(carsData);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleClear = async () => {
         setLoading(true);
         setCarFilters(emptyCarFilters);
-        const carsData = await getCars();
-        setCars(carsData);
-        setLoading(false);
+        try {
+            const carsData = await getCars();
+            setCars(carsData);
+        } catch (error) {
+            console.error(error);
+        } finally {
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
         async function fetchData() {
-            const carsData = await getCars();
+            const carsData = carType ? await getCars() : await getFilteredCars(carFilters);
             setCars(carsData);
             setLoading(false);
         }
-        if (carType) {
-            applyFilters();
-        } else {
-            fetchData();
-        }
-    }, []);
+        fetchData();
+    }, [carType, carFilters]);
 
     return (
         <main className="p-12">
             <div className="flex flex-col lg:flex-row xl:px-[10vw] justify-start items-center lg:items-start lg:pt-10">
                 <div>
-                    <CarFilters
-                        carFilters={carFilters}
-                        setCarFilters={setCarFilters}
-                        applyFilters={applyFilters}
-                        handleClear={handleClear}
-                        collapsedContext={[showCarFilters, setShowCarFilters]}
-                    />
-                    <OtherFilters
-                        otherFilters={otherFilters}
-                        setOtherFilters={setOtherFilters}
-                        collapsedContext={[showOtherFilters, setShowOtherFilters]}
-                    />
+                    <Suspense fallback={<LoadingCard />}>
+                        <CarFilters
+                            carFilters={carFilters}
+                            setCarFilters={setCarFilters}
+                            applyFilters={applyFilters}
+                            handleClear={handleClear}
+                            collapsedContext={[showCarFilters, setShowCarFilters]}
+                        />
+                    </Suspense>
+                    <Suspense fallback={<LoadingCard />}>
+                        <OtherFilters
+                            otherFilters={otherFilters}
+                            setOtherFilters={setOtherFilters}
+                            collapsedContext={[showOtherFilters, setShowOtherFilters]}
+                        />
+                    </Suspense>
                 </div>
                 {/* <div className="mx-10">{loading ? <LoadingCard /> : <CarsTable cars={cars} />}</div> */}
                 <div className="mx-10 flex">
